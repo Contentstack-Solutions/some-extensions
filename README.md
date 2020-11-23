@@ -12,6 +12,7 @@ Config Parameter Example:
 }
 ```
 `imageField` is just the uid of the image field that the preview will be created from.
+
 `region` can be https://eu-images.contentstack.com or https://images.contentstack.io
 
 ## summernote-rte
