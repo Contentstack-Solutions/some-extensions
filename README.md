@@ -7,10 +7,12 @@ A preview of the image in the entry - Just a bigger view. Using the image delive
 Config Parameter Example:
 ```
 {
-    "imageField": "image", (uid of the image field the preview will be built from)
-    "region": "https://eu-images.contentstack.com"  (can also be https://images.contentstack.io)
+    "imageField": "image",
+    "region": "https://eu-images.contentstack.com"
 }
 ```
+`imageField` is just the uid of the image field that the preview will be created from.
+`region` can be https://eu-images.contentstack.com or https://images.contentstack.io
 
 ## summernote-rte
 https://summernote.org/ - Custom field RTE
