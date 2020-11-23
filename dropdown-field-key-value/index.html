@@ -5,18 +5,27 @@
    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
 </head>
 <body>
-    <select id="select" onchange="valueChange()" onclick="setFocus()"></select>
-    <!--<input type="color" id="html5colorpicker" onchange="colorChange()" onclick="setFocus()"> -->
+    <select id="selectField" onchange="valueChange()" onclick="setFocus()"></select>
     <script>
         // initialise Field Extension
         window.extensionField = {};
 
-        // find color input element
-        var selectElement = document.getElementById("select");
+        // find select input element
+        var selectElement = document.getElementById("selectField");
 
         ContentstackUIExtension.init().then(function(extension) {
             // make extension object globally available
             extensionField = extension;
+            console.log(extensionField.fieldConfig);
+
+            for (var key in extensionField.config) {
+                if (extensionField.config.hasOwnProperty(key)) {
+                    var opt = document.createElement('option');
+                    opt.innerHTML = key;
+                    opt.value = extensionField.config[key];
+                    selectElement.appendChild(opt);
+                }
+            }
 
             // update the field height
             extensionField.window.updateHeight();
