@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Summernote RTE Extension</title>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+  <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+</head>
+<body>
+  <div id="editor"></div>
+  <script>
+    // initialise Field Extension
+    window.extensionField = {};
+    // find editor element
+    var editorElement = document.getElementById("editor");
+    // initialise variable for summernote RTE extension
+    var editor = {};
+    ContentstackUIExtension.init().then(function(extension) {
+        extensionField = extension;
+        extensionField.window.enableAutoResizing();
+
+        // Get current summernote editor field value from Contentstack and update the element
+        var value = extensionField.field.getData() || '';
+        $('#editor').summernote('code', value);
+
+        editor = $('#editor').summernote({
+            height: 500                 // set editor height
+        });
+        // Update value of field on change, without spamming
+        editor.on("summernote.change", _.throttle(updateFieldValue, 500, { leading: false }))
+    })
+    function updateFieldValue () {
+        var value = $('#editor').summernote('code');
+        extensionField.field.setData(value).catch(function(error){
+                console.log('error in setting data',error)
+        })
+    }
+  </script>
+</body>
+</html>
+

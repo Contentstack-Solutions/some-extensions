@@ -14,3 +14,6 @@ Config Parameter example:
 ```
 
 "field_uid" is the field you want to show the value from.
+
+## summernote-rte
+https://summernote.org/ - Custom field RTE
