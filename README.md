@@ -30,6 +30,8 @@ Config Parameter Example:
 
 `region` can be https://eu-images.contentstack.com or https://images.contentstack.io
 
+## quill-rte
+https://quilljs.com/ - Custom field RTE
 ## summernote-rte
 https://summernote.org/ - Custom field RTE
 

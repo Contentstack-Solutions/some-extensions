@@ -1,0 +1,71 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Quill Editor Extension</title>
+    <style>
+      body { margin: 0; }
+      #editor {
+        min-height: 300px;
+      }
+    </style>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  </head>
+  <body>
+
+    <pre id="editor"></pre>
+
+    <script>
+    // initialise Field Extension
+    window.extensionField = {};
+
+    // find editor element
+    var editorElement = document.getElementById("editor");
+
+    // initialise variable for quill RTE extension
+    var editor = {};
+
+    ContentstackUIExtension.init().then(function(extension) {
+        extensionField = extension;
+        extensionField.window.updateHeight();
+        extensionField.window.enableAutoResizing();
+
+        // Get current quill editor field value from Contentstack and update the element
+        var value = extensionField.field.getData() || '';
+
+        var options = {
+            theme: 'snow',
+            onChange : function(){
+                updateFieldValue();
+            },
+            placeholder: 'Compose something epic...'
+        };
+        editor = new Quill(editorElement, options);
+
+        editor.setHTML = (html) => {
+          editor.root.innerHTML = html;
+        };
+        editor.getHTML = () => {
+          return editor.root.innerHTML;
+        };
+
+        if(value) {
+            editor.setHTML(value);
+          }
+        else {
+          editor.setContents([{ insert: ''}]);
+        }
+        // Listen to change events and fire an update every 500ms
+        editor.on('text-change', _.throttle(updateFieldValue, 500, { leading: false }))
+    })
+
+    function updateFieldValue () {
+        var value = editor.getHTML()
+        extensionField.field.setData(value).catch(function(error){
+                console.log('error in setting data',error)
+        })
+    }
+
+    </script>
