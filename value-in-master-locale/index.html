@@ -1,0 +1,52 @@
+<html>
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+   <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+   <style>
+    .masterlocale {
+        min-width: 300px;
+        min-height: 20px;
+        border: 1px solid #e6eced;
+        margin: 0 auto 15px;
+        padding: 10px;
+        border-radius: 2px;
+        background-color: #f7fbfc;
+    }
+    </style>
+</head>
+<body>
+    <div id=masterlocale class="masterlocale">
+    <script>
+        window.extensionField = {};
+        ContentstackUIExtension.init().then(function(extension) {
+            extensionField = extension;
+            extensionField.window.enableAutoResizing();
+            
+            stackData = extension.stack;
+        
+            var thisUID = extensionField.entry['_data']['uid'];
+            var contentType = extensionField.entry['content_type']['uid'];
+
+            const Query = stackData.ContentType(contentType).Entry(thisUID).language(extensionField.config.master_locale);
+            Query.fetch()
+                .then(function success(entry) {
+                var value = entry['entry'][extensionField.config.field_uid];
+                displayMaster(value);
+            }, function error(err) {
+             console.log('Error');
+             console.log(err);
+            });
+        })
+        
+        function displayMaster(value){
+            //console.log(extensionField.entry);
+            if extensionField.config.master_locale != extensionField.entry['_data']['locale'] {
+                document.getElementById("masterlocale").innerHTML = value;
+            }
+        }
+        
+
+    </script>
+</body>
+</html>
