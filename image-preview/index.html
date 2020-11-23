@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+</head>
+<body>
+<img id=previewImg>
+<script>
+    window.extensionField = {};
+    var image;
+
+    ContentstackUIExtension.init().then(function(extension) {
+        // make extension object globally available
+        extensionField = extension;
+        extensionField.entry.onSave(getImagePath);
+
+        // update the field height
+        extensionField.window.updateHeight(510);
+        //extensionField.window.enableAutoResizing()
+
+        document.getElementById('previewImg').src=getImagePath();
+    })
+
+    function getImagePath(){
+        var image = extensionField.entry.getField(extensionField.config.imageField);
+        var fieldData = image.getData();
+        return extensionField.config.region + fieldData["url"] + "?width=521&height=500&fit=bounds";
+    }
+</script>
+</body>
+</html>
