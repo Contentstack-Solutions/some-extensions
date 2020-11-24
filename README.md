@@ -16,6 +16,8 @@ The key is what the editor sees. The value is the actual JSON value.
 
 **NOTE:** Set the _"Field data type"_ in Contentstack to match the type definition of the value in the config parameters above. This example uses _Number_
 
+**ANOTHER NOTE:** Change every mention of the `config`, from `extensionField.config` to `extensionField.fieldConfig` if you want to define the available options inside the content type builder instead of in the extension itself.
+
 ## image-preview
 A preview of the image in the entry - Just a bigger view. Using the image delivery API.
 
