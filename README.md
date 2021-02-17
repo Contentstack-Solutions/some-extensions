@@ -30,7 +30,7 @@ In the extension config, add something similar to this:
 	"campaign": "campaign",
 	"marketing": "marketing"
 }
-``
+```
 
 ## image-preview
 A preview of the image in the entry - Just a bigger view. Using the image delivery API.
