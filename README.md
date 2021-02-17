@@ -18,6 +18,20 @@ The key is what the editor sees. The value is the actual JSON value.
 
 **ANOTHER NOTE:** Change every mention of the `config`, from `extensionField.config` to `extensionField.fieldConfig` if you want to define the available options inside the content type builder instead of in the extension itself.
 
+## update-url
+Based on the dropdown custom field above. I supposed to update the URL field parent based on the value in the dropdown, but is not working at this time.
+
+When defining the URL field in the content type, insert "container" as parent path. Will be used to replace the string with the dropdown value.
+
+In the extension config, add something similar to this:
+```
+{
+	"product": "product",
+	"campaign": "campaign",
+	"marketing": "marketing"
+}
+``
+
 ## image-preview
 A preview of the image in the entry - Just a bigger view. Using the image delivery API.
 
