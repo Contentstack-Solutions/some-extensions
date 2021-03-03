@@ -1,5 +1,6 @@
 # some-extensions
-Some Extensions from Oskar
+Some Extension ideas
+*Not officially supported by Contentstack*
 
 ## dropdown-field-key-value
 The built-in select field in Contentstack does not give the user the chance to have key values in the select field. This custom extension is a dropdown field (single choice) that separates the key (label shown to the editor) and value (Actual value that the API sees).
@@ -21,7 +22,7 @@ The key is what the editor sees. The value is the actual JSON value.
 ## key-value-from-a-different-stack
 A key value field that looks up entries of defined content type and language in an different stack (can be configured to use the same stack).
 
-Fetches a field value from the external entry.
+Fetches a field value from the external entry. Example content type definition included in the folder (key-value-from-a-different-stack/key_value_lookup.json) and can be imported via Contentstack web application UI.
 
 Extension Config Parameter Example:
 ```
@@ -29,7 +30,7 @@ Extension Config Parameter Example:
 	"region": "https://eu-cdn.contentstack.com/v3", // or https://cdn.contentstack.io/v3
 	"api_key": "<stack api key>",
 	"access_token": "<environment delivery token)",
-	"content_type": "<content type uid>",
+	"content_type": "key_value_lookup",
 	"environment": "<environment name - e.g. development>",
 	"locale": "<locale - e.g. en-us>"
 }
