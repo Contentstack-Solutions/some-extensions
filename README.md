@@ -1,6 +1,7 @@
 # some-extensions
 Some Extension ideas
-*Not officially supported by Contentstack*
+
+**Not officially supported by Contentstack**
 
 ## dropdown-field-key-value
 The built-in select field in Contentstack does not give the user the chance to have key values in the select field. This custom extension is a dropdown field (single choice) that separates the key (label shown to the editor) and value (Actual value that the API sees).
