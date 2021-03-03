@@ -18,17 +18,20 @@ The key is what the editor sees. The value is the actual JSON value.
 
 **ANOTHER NOTE:** Change every mention of the `config`, from `extensionField.config` to `extensionField.fieldConfig` if you want to define the available options inside the content type builder instead of in the extension itself.
 
-## update-url
-Based on the dropdown custom field above. I supposed to update the URL field parent based on the value in the dropdown, but is not working at this time.
+## key-value-from-a-different-stack
+A key value field that looks up entries of defined content type and language in an different stack (can be configured to use the same stack).
 
-When defining the URL field in the content type, insert "container" as parent path. Will be used to replace the string with the dropdown value.
+Fetches a field value from the external entry.
 
-In the extension config, add something similar to this:
+Extension Config Parameter Example:
 ```
 {
-	"product": "product",
-	"campaign": "campaign",
-	"marketing": "marketing"
+	"region": "https://eu-cdn.contentstack.com/v3", // or https://cdn.contentstack.io/v3
+	"api_key": "<stack api key>",
+	"access_token": "<environment delivery token)",
+	"content_type": "<content type uid>",
+	"environment": "<environment name - e.g. development>",
+	"locale": "<locale - e.g. en-us>"
 }
 ```
 

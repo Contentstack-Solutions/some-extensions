@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>External API Lookup Template</title>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css"
+        rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <form>
+        <div class="form-group">
+            <select class="form-control" id="resource-select">
+            </select>
+        </div>
+    </form>
+    <script>
+
+        let extensionField;
+
+        class Request {
+            constructor({ configArg1, configArg2 }) {
+                this.configArg1 = configArg1;
+                this.configArg2 = configArg2;
+            }
+
+            async get() {
+                let request = this;
+                let region = extensionField.config.region;
+                let content_type_uid = extensionField.config.content_type;
+                let environment = extensionField.config.environment;
+                let locale = extensionField.config.locale;
+                let statusCode;
+                let count = await getCount(region, content_type_uid, environment, locale);
+                let initial_count = 0;
+                let list = [];
+                while (initial_count <= count) {
+                        let arrList = await getEntries(region,content_type_uid,environment,locale,initial_count)
+                        for (var i = 0; i < arrList.entries.length; i++) {
+                            list.push(arrList.entries[i]);
+                        }
+                        initial_count += 100;
+                }
+                return list;
+            }
+        }
+        
+        async function getEntries(region, content_type_uid, environment, locale, count) {
+            return new Promise((resolve,reject) => {
+                let url = region + '/content_types/' + content_type_uid + '/entries?environment=' + environment + '&locale=' + locale + '&skip=' + count + '&asc=sortby';
+                        fetch(url, {
+                            method: 'GET',
+                            headers: {
+                                'api_key': extensionField.config.api_key,
+                                'access_token': extensionField.config.access_token
+                            }
+                        }).then((response) => {
+                            statusCode = response.status;
+                            resolve(response.json());
+                        }).then((response) => {
+                            if (statusCode === 200) resolve(response);
+                            throw Error('Failed to fetch resource');
+                        }).catch((err) => {
+                            console.log(err);
+                            reject(err);
+                        });
+            })
+        }
+
+        async function getCount(region, content_type_uid, environment, locale) {
+            return new Promise((resolve, reject) => {
+                let count_url = region + '/content_types/' + content_type_uid + '/entries?environment=' + environment + '&locale=' + locale + '&count=true';
+                fetch(count_url, {
+                    method: 'GET',
+                    headers: {
+                        'api_key': extensionField.config.api_key,
+                        'access_token': extensionField.config.access_token
+                    }
+                }).then(res => res.json())
+                .then((res) => resolve(res.entries));
+            }
+            )
+        }
+
+        function domChangeListner() {
+            $('#resource-select').on('change', () => {
+                let fieldValue = $('#resource-select').val();
+                return extensionField.field.setData(fieldValue);
+            });
+        }
+
+        function render(response) {
+            //  to get previously selected
+            let fieldData = extensionField.field.getData();
+            response.forEach((dataSet) => {
+                let option = $('<option></option>').attr('value', dataSet.value).text(`${dataSet.key}`);
+                if (fieldData === dataSet.value) {
+                    option.attr('selected', 'selected');
+                }
+                $('#resource-select').append(option);
+            });
+            // Step 3:  domChangeListner - Start listner on select field to set data for field
+            // on selection change
+            domChangeListner();
+        }
+
+
+        $(document).ready(() => {
+            // Step:1 Intializing extension - In this step we try to connect to host
+            //  window using postMessage API and get intial data.
+
+            ContentstackUIExtension.init().then(extension => { // current extension object
+                extensionField = extension;
+
+                let request = new Request(extension.config); // initialize request object using config
+    
+                request.get().then((response) => {
+                    // Step 2:  Render - Render the data fetched from external service
+                    render(response);
+                });
+
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
