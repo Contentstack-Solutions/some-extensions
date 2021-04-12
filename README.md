@@ -74,7 +74,7 @@ Shows all available nested references from the current entry.
 Current limitations:
 
 1. It does not publish the current entry.
-2. It does not pubblish the current entry assets.
+2. It does not publish the current entry assets.
 
 Config Parameter Example:
 ```
