@@ -75,6 +75,7 @@ Current limitations:
 
 1. It does not publish the current entry.
 2. It does not publish the current entry assets.
+3. Currently it uses on change to check for reference updates, so it checks for everytime a field changes (obviously not good). Needs to be updated to check only when references change.
 
 Config Parameter Example:
 ```
