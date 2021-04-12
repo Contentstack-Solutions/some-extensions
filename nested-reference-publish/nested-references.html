@@ -129,23 +129,25 @@
                 if (entry) {
                     entry = JSON.parse(entry);
                     let newReferences = await findReferences(entry);
-                    if (allReferences.length == 0) {
-                        allReferences.push(newReferences[0]);
-                        stack.push(JSON.stringify(newReferences[0]));
-                    }
-                    for (let i in newReferences) {
-                        let flag = true;
-                        for (let j in allReferences) {
-                            if (newReferences[i].uid == allReferences[j].uid) {
-                                flag = false;
-                            }
+                    if (newReferences.length > 0) {
+                        if (allReferences.length == 0) {
+                            allReferences.push(newReferences[0]);
+                            stack.push(JSON.stringify(newReferences[0]));
                         }
-                        if (flag) {
-                            allReferences.push(newReferences[i]);
-                            if (newReferences[i].type == "reference") {
-                                let newEntry = newReferences[i];
-                                stack.push(JSON.stringify(newEntry));
-                                flag = true;
+                        for (let i in newReferences) {
+                            let flag = true;
+                            for (let j in allReferences) {
+                                if (newReferences[i].uid == allReferences[j].uid) {
+                                    flag = false;
+                                }
+                            }
+                            if (flag) {
+                                allReferences.push(newReferences[i]);
+                                if (newReferences[i].type == "reference") {
+                                    let newEntry = newReferences[i];
+                                    stack.push(JSON.stringify(newEntry));
+                                    flag = true;
+                                }
                             }
                         }
                     }
@@ -166,11 +168,16 @@
                     for (var obj in entry[key]) {
                         let field = entry[key][obj];
                         if (field.hasOwnProperty("uid")) {
+                            /*
                             let obj = {};
                             obj.type = "reference";
                             obj.uid = field["uid"];
                             obj._content_type_uid = field["_content_type_uid"];
-                            references.push(obj);
+                            */
+                            let obj = await extensionField.stack.ContentType(field["_content_type_uid"]).Entry(field["uid"]).fetch();
+                            obj.entry.type = "reference";
+                            obj.entry._content_type_uid = field["_content_type_uid"];
+                            references.push(obj.entry);
                         }
                     }
                 }
@@ -178,10 +185,16 @@
                     let field = entry[key]
                     if (field) {
                         if (field.hasOwnProperty("uid")) {
+                            /*  
                             let obj = {};
                             obj.type = "asset";
                             obj.uid = field["uid"];
                             obj._content_type_uid = field["filename"];
+                            */
+                            let obj = await extensionField.stack.Asset(field["uid"]);
+                            obj.type = "asset";
+                            obj._content_type_uid = field["filename"];
+                            obj.title = field["filename"];
                             references.push(obj);
                         }
                     }
@@ -200,7 +213,7 @@
                 let div1 = document.createElement("td");
                 div1.innerHTML = capitalize(allReferences[i].type);
                 let div2 = document.createElement("td");
-                div2.innerHTML = allReferences[i]._content_type_uid;
+                div2.innerHTML = allReferences[i].title;
                 let div3 = document.createElement("td");
                 div3.innerHTML = allReferences[i].uid;
                 tr.appendChild(buildCheckbox(allReferences[i]));
@@ -229,6 +242,7 @@
         }
 
         async function publishReferences() {
+            console.log(extensionField.environments);
             let array = []
             let results = [];
             let checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
@@ -240,12 +254,9 @@
                     await extensionField.stack.ContentType(array[i]._content_type_uid).Entry(array[i].uid)
                         .publish({
                             "entry": {
-                                "locales": [
-                                    "en-us"
-                                ],
-                                "environments": [
-                                    "production"
-                                ]
+                                "locales": extensionField.config.locales,
+                                "environments": extensionField.config.environments
+                                
                             }
                         }).then(function (result) {
                             let row = document.getElementById(array[i].uid);
@@ -254,6 +265,7 @@
                         }).catch(function (result) {
                             let row = document.getElementById(array[i].uid);
                             row.className = "table-warning";
+                            console.log(result);
                         })
                 }
                 if (array[i].type == 'asset') {
@@ -261,12 +273,9 @@
                         .publish(
                             {
                                 "asset": {
-                                    "locales": [
-                                        "en-us"
-                                    ],
-                                    "environments": [
-                                        "production"
-                                    ]
+                                    "locales": extensionField.config.locales,
+                                    "environments": extensionField.config.environments
+                                    
                                 }
                             }).then(function (result) {
                                 let row = document.getElementById(array[i].uid);
@@ -275,6 +284,7 @@
                             }).catch(function (result) {
                                 let row = document.getElementById(array[i].uid);
                                 row.className = "table-warning";
+                                console.log(result);
                             })
                 }
             }
