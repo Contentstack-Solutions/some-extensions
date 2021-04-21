@@ -66,4 +66,26 @@ Config Parameter Example:
     "master_locale": "en-us"
 }
 ```
-`field_uid` is the field you want to show the value from.
+`field_uid` is the field you want to show the value from
+
+
+## Nested References Custom Field
+Shows all available nested references from the current entry. 
+Current limitations:
+
+1. It does not publish the current entry.
+2. It does not publish the current entry assets.
+3. Currently it uses on change to check for reference updates, so it checks for everytime a field changes (obviously not good). Needs to be updated to check only when references change.
+
+Config Parameter Example:
+```
+{
+	"environments": [
+		"production",
+		"staging"
+	],
+	"locales": [
+		"en-us"
+	]
+}
+```
