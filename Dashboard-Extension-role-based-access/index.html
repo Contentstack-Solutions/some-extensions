@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DB extenstion Access</title>
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.css">
+
+    <style>
+        .accessMsg {
+            text-align: center;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+
+<body>
+    <p id="accessMsg" class="accessMsg"></p>
+
+    <script>
+        ContentstackUIExtension
+            .init()
+            .then(function (extension) {
+                var isDBWidgetAccess, accessMsg;
+                const isAccess = extension.currentUser.roles.find(({ name }) => name === 'no access to DB Extension');
+                console.log(extension, isAccess)
+                if (isAccess) {
+                    isDBWidgetAccess = true;
+                    accessMsg = 'Logged-In Stack User has Dashboard Extension Access'
+                } else {
+                    isDBWidgetAccess = false;
+                    accessMsg = 'Logged-In Stack User does not have Dashboard Extension Access'
+                }
+
+                document.getElementById("accessMsg").innerHTML = accessMsg;
+            });
+    </script>
+</body>
+
+</html>
