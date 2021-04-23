@@ -26,7 +26,7 @@
             .init()
             .then(function (extension) {
                 var isDBWidgetAccess, accessMsg;
-                const isAccess = extension.currentUser.roles.find(({ name }) => name === 'no access to DB Extension');
+                const isAccess = extension.currentUser.roles.find(({ name }) => name === 'Access to DB Extension');
                 console.log(extension, isAccess)
                 if (isAccess) {
                     isDBWidgetAccess = true;
