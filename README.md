@@ -95,6 +95,6 @@ This is a workaround to restrict Dashboard extension view based on custom role
 
 1. Create a custom role (suppose i.e Access to DB Extension) and assign this role to stack users whom you don't wanna give access to the specific DB extension .
 2. Set hosted method as Hosted by Contentstack 
-3. Use html code in Dashboard-Extension-role-based-access [https://github.com/Contentstack-Solutions/some-extensions/blob/main/Dashboard-Extension-role-based-access/index.html](folder) and use it in your Dashboard Extension to check if logged in stack user is having access or not i.e if isDBExtensionAccess is true then you can write code for conditionally display Dashboard extensions view.
+3. Use [Html Code](https://github.com/Contentstack-Solutions/some-extensions/blob/main/Dashboard-Extension-role-based-access/index.html) in Dashboard-Extension-role-based-access Folder and use it in your Dashboard Extension to check if logged in stack user is having access or not i.e if isDBExtensionAccess is true then you can write code for conditionally display Dashboard extensions view.
 4. Even you can do diffrent Functionality or view for diffrent custom Roles by conditional rendering.
 5. You can also use extension Config to have array of roles or roles-uid to be restricted and write some code to restrict them.
