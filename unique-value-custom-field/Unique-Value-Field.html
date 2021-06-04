@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css"
+        rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <div>
+        <span id="unique" class="cs-text-box w-100"></span>
+    </div>
+
+
+    <script>
+        // initialise Field Extension
+        window.extensionField = {};
+
+        // find editor element
+        var uniqueElement = document.getElementById("unique");
+
+        // initialise variable for ace editor plugin
+        var editor = {};
+        ContentstackUIExtension.init().then(function (extension) {
+            // make extension object globally available
+            extensionField = extension;
+            console.log(extension)
+
+            // update the field height 
+            extensionField.window.updateHeight();
+
+            const uniqueField = document.getElementById('unique');
+            var fieldValue = extension.entry.getField('unique_value').getData()
+            
+            if (!fieldValue) {
+                const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                let result = 'blt';
+                const charactersLength = characters.length;
+                for (let i = 0; i < 20; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                uniqueField.textContent = result;
+                extension.field.setData(uniqueField.innerHTML);
+            } else {
+                uniqueField.textContent = extension.entry.getField('unique_value').getData();
+            }
+        })
+    </script>
+</body>
+
+</html>
