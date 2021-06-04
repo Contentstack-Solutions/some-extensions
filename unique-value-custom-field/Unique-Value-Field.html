@@ -18,11 +18,9 @@
         // initialise Field Extension
         window.extensionField = {};
 
-        // find editor element
+        // find unique field element
         var uniqueElement = document.getElementById("unique");
 
-        // initialise variable for ace editor plugin
-        var editor = {};
         ContentstackUIExtension.init().then(function (extension) {
             // make extension object globally available
             extensionField = extension;
