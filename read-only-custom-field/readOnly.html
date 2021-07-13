@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css"
+        rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <div>
+        <!--<span id="unique" class="cs-text-box w-100"></span>-->
+        <div class="cs-form-group">
+            <input type="text" id="readOnly" class="cs-text-box w-100" onchange="SetValue()">
+        </div>
+    </div>
+
+
+    <script>
+        // initialise Field Extension
+        window.extensionField = {};
+        var value;
+        // find Field element
+        var readOnlyField = document.getElementById("readOnly");
+
+        ContentstackUIExtension.init().then(function (extension) {
+            // make extension object globally available
+            extensionField = extension;
+            console.log(extensionField)
+            value = extension.entry.getField('read_only').getData()
+            // Check initial value and Disable
+            if (value !== "" && value !== " " && value != undefined) {
+                readOnlyField.value = value;
+                readOnlyField.disabled = true;
+            }
+        })
+        function SetValue() {
+            console.log("update", readOnlyField.value)
+            if (readOnlyField.value != "") {
+                extensionField.field.setData(readOnlyField.value);
+            }
+            console.log("update", extensionField)
+        }
+    </script>
+</body>
+
+</html>
