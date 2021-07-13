@@ -99,13 +99,15 @@ This is a workaround to restrict Dashboard extension view based on custom role
 4. Even you can do diffrent Functionality or view for diffrent custom Roles by conditional rendering.
 5. You can also use extension Config to have array of roles or roles-uid to be restricted and write some code to restrict them.
 
-## Read Only Custom Field extension
-# Use Cases :- 
-1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it?
-
 ## unique-value-custom-field - Custom Unique UID
 In case you need for example a uid that remains the same between shared stacks when the entries are the same.
 
 Value is enriched when entry is created. Field is readonly so editors cannot change it. It can easily be extended to be hidden from them as well. The extension checks if the field has any value and creates it if it's missing.
 
 **Limitation - To be fixed:**  If the entry is created by copying another entry, the value will remain the same between entries.
+
+
+## Read Only Custom Field extension
+
+**Use Cases:**
+1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it?
