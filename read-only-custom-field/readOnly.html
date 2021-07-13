@@ -10,7 +10,6 @@
 
 <body>
     <div>
-        <!--<span id="unique" class="cs-text-box w-100"></span>-->
         <div class="cs-form-group">
             <input type="text" id="readOnly" class="cs-text-box w-100" onchange="SetValue()">
         </div>
@@ -27,10 +26,10 @@
         ContentstackUIExtension.init().then(function (extension) {
             // make extension object globally available
             extensionField = extension;
-            console.log(extensionField)
-            value = extension.entry.getField('read_only').getData()
+            console.log(extensionField,extensionField.config)
+            value = extension.entry.getField(extensionField.config.custom_field_UID).getData()
             // Check initial value and Disable
-            if (value !== "" && value !== " " && value != undefined) {
+            if (value != undefined && value !== "" && value !== " ") {
                 readOnlyField.value = value;
                 readOnlyField.disabled = true;
             }
