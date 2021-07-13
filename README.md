@@ -98,3 +98,8 @@ This is a workaround to restrict Dashboard extension view based on custom role
 3. Use [Html Code](https://github.com/Contentstack-Solutions/some-extensions/blob/main/Dashboard-Extension-role-based-access/index.html) in Dashboard-Extension-role-based-access Folder and use it in your Dashboard Extension to check if logged in stack user is having access or not i.e if isDBExtensionAccess is true then you can write code for conditionally display Dashboard extensions view.
 4. Even you can do diffrent Functionality or view for diffrent custom Roles by conditional rendering.
 5. You can also use extension Config to have array of roles or roles-uid to be restricted and write some code to restrict them.
+
+## Read Only Custom Field extension
+# Use Cases :- 
+1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it?
+
