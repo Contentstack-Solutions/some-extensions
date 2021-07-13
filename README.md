@@ -108,6 +108,5 @@ Value is enriched when entry is created. Field is readonly so editors cannot cha
 
 
 ## Read Only Custom Field extension
-
 **Use Cases:**
-1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it?
+1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it.
