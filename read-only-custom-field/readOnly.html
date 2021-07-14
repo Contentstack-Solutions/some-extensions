@@ -27,12 +27,14 @@
             // make extension object globally available
             extensionField = extension;
             console.log(extensionField,extensionField.config)
-            value = extension.entry.getField(extensionField.config.custom_field_UID).getData()
+            value = extension.field.getData()
             // Check initial value and Disable
             if (value != undefined && value !== "" && value !== " ") {
                 readOnlyField.value = value;
                 readOnlyField.disabled = true;
             }
+            // update the field height 
+            extensionField.window.updateHeight();
         })
         function SetValue() {
             console.log("update", readOnlyField.value)
