@@ -131,4 +131,4 @@ Config Parameter Example:
 }
 ```
 
-5. Add this custom field with 'Mandatory' checked in Advance field setting in your desired content-type, This field only allow you  publish if title value is 'Hello world' else it will show validation error message.
+5. Add this custom field with `Mandatory` checked in Advance field setting in your desired content-type, This field only allow you  publish if title value is 'Hello world' else it will show validation error message.
