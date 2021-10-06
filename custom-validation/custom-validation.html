@@ -17,39 +17,32 @@
 
 
     <script>
-        // initialise Field Extension
         window.extensionField = {};
-        var value;
-        // find Field element
+        // get Field element
         var validationMessageField = document.getElementById("validationMessage");
-
-
+        // initialise Field Extension
         ContentstackUIExtension.init().then(function (extension) {
             // make extension object globally available
             extensionField = extension;
-            console.log(extensionField, extensionField.config)
+            // set Onchange event for entry to check validation
             extensionField.entry
                 .onChange(checkValidation);
-            value = extension.field.getData()
             // update the field height 
             extensionField.window.updateHeight();
         })
         function checkValidation() {
             var fieldData = extensionField.entry._changedData[extensionField.config.fieldUid];
-            console.log(fieldData)
             if (fieldData == 'Hello world') {
                 var validationField = extensionField.entry.getField('validation');
                 validationField.setData("success")
                 validationMessageField.innerHTML = "Validation Successful !"
                 validationMessageField.style.color = "green";
-
             } else {
-                validationMessageField.innerHTML = "Enter Valid Input of 'Hello world' in title field !"
-                validationMessageField.style.color = "red";
                 var validationField = extensionField.entry.getField('validation');
                 validationField.setData("")
+                validationMessageField.innerHTML = "Enter Valid Input of 'Hello world' in title field !"
+                validationMessageField.style.color = "red";
             }
-            console.log("update", extensionField)
         }
     </script>
 </body>
