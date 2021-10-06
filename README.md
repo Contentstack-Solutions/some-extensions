@@ -123,7 +123,12 @@ Value is enriched when entry is created. Field is readonly so editors cannot cha
 2. Choose Hosting Method as 'Hosted by Contentstack'.
 3. Add [Html Code](https://github.com/Contentstack-Solutions/some-extensions/blob/main/custom-validation/custom-validation.html) in Extension source code.
 4. Add Config parameter
+
+Config Parameter Example:
+```
 {
- "fieldUid":"title" // Your field UID
+	"fieldUid":"title"  // your field UID
 }
+```
+
 5. Add this custom field with 'Mandatory' checked in Advance field setting in your desired content-type, This field only allow you  publish if title value is 'Hello world' else it will show validation error message.
