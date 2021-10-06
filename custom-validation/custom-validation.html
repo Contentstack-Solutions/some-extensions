@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css"
+        rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <div>
+        <div class="cs-form-group">
+            <p id="validationMessage" class="ValidationMessage__text"></p>
+        </div>
+    </div>
+
+
+    <script>
+        // initialise Field Extension
+        window.extensionField = {};
+        var value;
+        // find Field element
+        var validationMessageField = document.getElementById("validationMessage");
+
+
+        ContentstackUIExtension.init().then(function (extension) {
+            // make extension object globally available
+            extensionField = extension;
+            console.log(extensionField, extensionField.config)
+            extensionField.entry
+                .onChange(checkValidation);
+            value = extension.field.getData()
+            // update the field height 
+            extensionField.window.updateHeight();
+        })
+        function checkValidation() {
+            var fieldData = extensionField.entry._changedData[extensionField.config.fieldUid];
+            console.log(fieldData)
+            if (fieldData == 'Hello world') {
+                var validationField = extensionField.entry.getField('validation');
+                validationField.setData("success")
+                validationMessageField.innerHTML = "Validation Successful !"
+                validationMessageField.style.color = "green";
+
+            } else {
+                validationMessageField.innerHTML = "Enter Valid Input of 'Hello world' in title field !"
+                validationMessageField.style.color = "red";
+                var validationField = extensionField.entry.getField('validation');
+                validationField.setData("")
+            }
+            console.log("update", extensionField)
+        }
+    </script>
+</body>
+
+</html>
