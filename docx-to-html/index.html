@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <!-- Contentstack CSS -->
+    <link href="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.css" rel="stylesheet" >
+
+    <style>
+        #document {
+            display:none;
+        }
+        
+        #displayDocument {
+            margin-top: 2em;
+        }
+
+        #clearButton {
+            margin-top: 1em;
+            border: 1px solid #6c5ce7;
+            display: inline-block;
+            padding: 8px 1.1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #6c5ce7;
+            text-shadow: 0 1px 0 rgb(0 0 0 / 16%);
+            font-weight: 700;
+            transition: all .1s linear;
+            margin-right: 1em;
+        }
+
+        .custom-file-upload {
+            margin-top: 1em;
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            background-color: #6c5ce7;
+            color: #fff;
+            text-shadow: 0 1px 0 rgb(0 0 0 / 16%);
+            font-weight: 700;
+            transition: all .1s linear;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #5d50bf;
+        }
+
+        #documentName {
+            margin-top: 1em;
+            margin-left: 1em;
+        }
+
+        ol {
+            margin-left: 1em;
+            margin-bottom: 1em;
+        }
+
+        ul {
+            margin-bottom: 1em;
+        }
+
+        ul li::before {
+            content: "•"; /* Insert content that looks like bullets */
+            padding-right: 8px;
+            color: #748590; /* Or a color you prefer */
+        }
+
+        table td {
+            vertical-align: top;
+        }
+
+        table td:first-child {
+            padding-right: 2em;
+        }
+        
+        i {
+            margin-right: 6px;
+        }
+
+        .dot-flashing {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #6c5ce7;
+            color: #6c5ce7;
+            animation: dotFlashing 1s infinite linear alternate;
+            animation-delay: .5s;
+            margin-top: 2em;
+            margin-left: 2em;
+            display: none;
+        }
+
+        .dot-flashing::before, .dot-flashing::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+
+        .dot-flashing::before {
+            left: -15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #6c5ce7;
+            color: #6c5ce7;
+            animation: dotFlashing 1s infinite alternate;
+            animation-delay: 0s;
+        }
+
+        .dot-flashing::after {
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #6c5ce7;
+            color: #6c5ce7;
+            animation: dotFlashing 1s infinite alternate;
+            animation-delay: 1s;
+        }
+
+        @keyframes dotFlashing {
+            0% {
+                background-color: #6c5ce7;
+            }
+            50%,
+            100% {
+                background-color: #ebe6ff;
+            }
+        }
+
+    </style>
+
+  </head>
+  <body>
+
+    <button id="clearButton"><i class="fas fa-file-upload"></i> Clear Field</button>
+    <!-- upload button -->
+    <label for="document" class="custom-file-upload">
+        <i class="fas fa-file-upload"></i> Upload .docx File
+    </label>
+    <input id="document" type="file" />
+    <span id="documentName"></span>
+
+    <!-- loader -->
+    <div class="dot-flashing" id="dot-flashing"></div>
+    <!-- display uploaded document -->
+    <div id="displayDocument"></div>
+
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.19/mammoth.browser.min.js"></script>
+    <script>
+        window.extensionField = {};
+        var documentName = document.getElementById('documentName');
+
+        // convert docx to html onchange
+        (function() {
+            document.getElementById("document")
+                .addEventListener("change", handleFileSelect, false);
+                
+            function handleFileSelect(event) {
+                readFileInputEventAsArrayBuffer(event, function(arrayBuffer) {
+                    displayDocument.innerHTML = '';
+                    document.getElementById('dot-flashing').style.display = "block";
+                    mammoth.convertToHtml({arrayBuffer: arrayBuffer})    
+                        .then(function(result){
+                            if (result.value) {
+                                var html = result.value; // The generated HTML
+                                var messages = result.messages; // Any messages, such as warnings during conversion
+                                document.getElementById('dot-flashing').style.display = "none";
+                                displayDocument.innerHTML = html;
+                                extensionField.field.setData(html)
+                            } 
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            documentName.innerText = 'Failed to upload file.';
+                            document.getElementById('dot-flashing').style.display = "none";
+                        })
+                        .done();
+                });
+            }
+            function readFileInputEventAsArrayBuffer(event, callback) {
+                var file = event.target.files[0];
+                var fileName = event.target.files[0].name;
+                documentName.innerText = fileName;
+                var reader = new FileReader();
+                reader.onload = function(loadEvent) {
+                    var arrayBuffer = loadEvent.target.result;
+                    callback(arrayBuffer);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+
+            document.getElementById("clearButton")
+                .addEventListener("click", clearField, false);
+
+            function clearField() {
+                documentName.innerText = '';
+                displayDocument.innerHTML = '';
+                extensionField.field.setData('')
+            }
+        })();
+
+        ContentstackUIExtension.init().then(async e => {
+            extensionField = e, 
+            extensionField.window.enableAutoResizing(), 
+            extensionField.window.updateHeight()
+            let fieldData = e.field.getData();
+            displayDocument.innerHTML = fieldData;
+        })
+    </script>
+  </body>
+</html>
