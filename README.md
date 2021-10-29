@@ -134,7 +134,7 @@ Config Parameter Example:
 5. Add this custom field with `Mandatory` checked in Advance field setting in your desired content-type, This field only allow you  publish if title value is 'Hello world' else it will show validation error message.
 
 
-## Transform word docx to html custom field extension
+## docx-to-html custom field extension
 This extension allow users to upload a Word document file ending with .docx and convert into HTML. 
 
 **Steps:**
