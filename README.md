@@ -142,5 +142,7 @@ This custom field extension will convert a Word Document ending with .docx to HT
 2. Choose Hosting Method as 'Hosted by Contentstack'.
 3. Add [Html Code](https://github.com/Contentstack-Solutions/some-extensions/blob/main/docx-to-html/index.html) in Extension source code.
 
+Note: The layout will remain in place, but slight CSS implementation need to be applied to make it look good.
+
 ![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/docx-to-html.png) 
 
