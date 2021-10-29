@@ -144,5 +144,7 @@ This custom field extension will convert a Word Document ending with .docx to HT
 
 Note: The layout will remain in place, but slight CSS implementation need to be applied to make it look good.
 
-![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/docx-to-html.png) 
+Example demo: https://docx-to-html.vercel.app/
+
+![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/docx-to-html-v2.png) 
 
