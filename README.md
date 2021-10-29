@@ -135,7 +135,7 @@ Config Parameter Example:
 
 
 ## docx-to-html custom field extension
-This custom field extension will convert a Word Document ending with .docx to HTML.
+This custom field extension converts a Word Document ending with .docx to HTML.
 
 **Steps:**
 1. Set Field data type of Extension as 'Text'.
