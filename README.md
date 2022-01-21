@@ -160,16 +160,18 @@ This custom extension allow users to perform Publish, Unpublish, and Delete acti
 **Steps:**
 1. Set Default state to Full Width.
 2. Choose Hosting Method as 'External Hosting'.
-3. Add [Html Code](https://bulk-publishing-extension-react.vercel.app/) in External hosting URL.
+3. Add URL https://bulk-publishing-extension-react.vercel.app/ in External hosting URL.
+
+![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/bulk-operation-extension-settings.png) 
 
 **Note:** 
 
 The layout will remain in place, slight CSS implementation will be needed on the client-side web application to make it look presentable.
 
-**Live demo:** https://docx-to-html.vercel.app/
+**Extension URL:** https://bulk-publishing-extension-react.vercel.app/
 
 **Example screenshot**
 
-![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/docx-to-html-example-v2.png) 
+![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/bulk-operation-extension.png) 
 
 
