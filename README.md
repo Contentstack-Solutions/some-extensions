@@ -155,7 +155,7 @@ The layout will remain in place, slight CSS implementation will be needed on the
 
 
 ## Bulk Operation extension
-This custom extension allow users to perform Publish, Unpublish, and Delete actions in bulk.
+This custom dashboard extension allow users to perform Publish, Unpublish, and Delete actions in bulk. This extension will also work for custom fields extension.
 
 **Steps:**
 1. Set Default state to Full Width.
