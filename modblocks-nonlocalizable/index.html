@@ -6,46 +6,46 @@
     <link href="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.css" rel="stylesheet">
     <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
 </head>
+
 <body>
     <div id="root">
-      <input id="non-localizable" />
+        <input id="non-localizable" />
     </div>
 </body>
 <script>
     window.extensionField = {};
-
-    ContentstackUIExtension.init().then(async function (extension) {
-      let customField = document.getElementById('non-localizable');
-      var today = new Date();
-      let customFieldUID = 'non-localizable-'+ today.getSeconds();
-      customField.id = customFieldUID;
-    
-      extensionField = extension;
-      var entry = extension.entry;
-      let masterEntry = await extension.stack.ContentType(extension.entry.content_type.uid).Entry(extension.entry._data.uid).fetch()
-      let pathWay = extension.field.schema['$uid'].split(".");
-      
-      let masterValue = masterEntry.entry;
-      for (index in pathWay) {
-        let key = pathWay[index];
-        masterValue = masterValue[key];
-      }
-
-      extension.field.setData(masterValue);
-      let nonLocalizable = document.getElementById(customFieldUID);
-      nonLocalizable.value = masterValue;
-      if (entry.locale !== extension.config.master_locale)
-      {
-        nonLocalizable.disabled = true;
-      }
-      
-      customField.addEventListener('keyup', function(e) {
-        window.extensionField.field.setData(nonLocalizable.value);
-    })
-    });
-    
         
-    
+    ContentstackUIExtension.init().then(async function (extension) {
+        let customField = document.getElementById('non-localizable');
+        var today = new Date();
+        let customFieldUID = 'non-localizable-' + today.getSeconds();
+        customField.id = customFieldUID;
+
+        extensionField = extension;
+        var entry = extension.entry;
+        let masterEntry = await extension.stack.ContentType(extension.entry.content_type.uid).Entry(extension.entry._data.uid).fetch()
+        let pathWay = extension.field.schema['$uid'].split(".");
+
+        let masterValue = masterEntry.entry;
+        for (index in pathWay) {
+            let key = pathWay[index];
+            masterValue = masterValue[key];
+        }
+
+        extension.field.setData(masterValue);
+        let nonLocalizable = document.getElementById(customFieldUID);
+        nonLocalizable.value = masterValue;
+        if (entry.locale !== extension.stack._data.master_locale) {
+            nonLocalizable.disabled = true;
+        }
+
+        customField.addEventListener('keyup', function (e) {
+            window.extensionField.field.setData(nonLocalizable.value);
+        })
+    });
+
+
+
 
 </script>
 
