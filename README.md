@@ -117,6 +117,24 @@ Value is enriched when entry is created. Field is readonly so editors cannot cha
 **Use Cases:**
 1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it.
 
+## Copy Field data from one field to another extension
+**Steps:**
+1. Set Field data type of Extension as 'Text'.
+2. Choose Hosting Method as 'Hosted by Contentstack'.
+3. Add [Html Code](https://github.com/Contentstack-Solutions/some-extensions/blob/main/copy-field-data-other-field/copy-field-data.html) in Extension source code.
+4. Add this custom field in your desired content-type, on check of custom checkbox extension will copy data from one field to another field based on field config parameters.
+
+Config Parameter Example:
+```
+{
+	"from":"desktop",
+	"to":"tablet"
+}
+```
+
+**Use Cases:**
+1. We need to have the possibility to copy content for different Device (Desktop to mobile and vice versa)
+
 ## Custom Validation Field extension
 **Steps:**
 1. Set Field data type of Extension as 'Text'.
