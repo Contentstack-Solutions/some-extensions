@@ -169,3 +169,8 @@ The layout will remain in place, slight CSS implementation will be needed on the
 **Example screenshot**
 
 ![Docx_to_HTML](https://github.com/Contentstack-Solutions/some-extensions/blob/main/assets/docx-to-html-example-v2.png) 
+
+## Bulk-copy fields sidebar extension
+This sidebar allows copying field values between translations
+
+**Example screenshot**

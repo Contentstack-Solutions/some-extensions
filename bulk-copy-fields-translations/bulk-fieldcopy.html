@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+<style>
+  form span {padding: 3px;}
+</style>
+<h1>Bulk copy between locales</h1>
+<form>
+  <h2>Current/source language</h2>
+  <div id=sourcelanguage></div>
+  <h2>Languages</h2>
+  <div id=langs></div>
+  <h2>Fields</h2>
+  <div id=fields></div>
+  
+</form>
+<button id="sync" onClick="doSync()">SYNC!</button>
+    <script>
+      const supportedFieldTypes = ['text'];
+    
+      function doSync() {
+        var selectedLocales = Array.from(document.querySelectorAll('input[name=locale]:checked')).map(x => x.value);
+        var selectedFields = Array.from(document.querySelectorAll('input[name=field]:checked')).map(x => x.value);
+        //console.log(selectedLocales, selectedFields);
+        for (let i = 0; i < selectedLocales.length; i++) {
+            updateEntry(selectedLocales[i], selectedFields);
+        }
+      }
+    
+      function updateEntry(targetLocale, fieldList) {
+        // if you want to compare the two entries, you can use this (put the rest of the code .then section):
+        //extensionField.stack.ContentType(csglobals.content_type).Entry(csglobals.entry_uid).language(targetLocale).fetch().then()
+
+        let newEntryPayload = {'entry': {}}
+        for (let i = 0; i < fieldList.length; i++) {
+          newEntryPayload.entry[fieldList[i]] = extensionField.entry.getField(fieldList[i]).getData();
+        }
+        extensionField.stack.ContentType(csglobals.content_type).Entry(csglobals.entry_uid).update(newEntryPayload, targetLocale);
+        console.log('done')
+      }
+      
+      function setUp() {
+        document.querySelector('#sourcelanguage').textContent = csglobals.sourceLocale;
+        const ldiv = document.querySelector('#langs');
+        const fdiv = document.querySelector('#fields');
+
+        // Write out langs
+        for (let i = 0; i < csglobals.langs.locales.length; i++) {
+          
+          let item = csglobals.langs.locales[i];
+          // item.fallback_locale contains the code of the fallback, can be used to create rules for which locales can copy
+          let x = document.createElement('input');
+          x.value = item.code;
+          x.name = 'locale'
+          x.type = 'checkbox';
+          ldiv.appendChild(x);
+          x = document.createElement('span');
+          x.textContent = item.name + " ( "+item.code+" )";
+          ldiv.appendChild(x);
+          ldiv.appendChild(document.createElement('br'));
+        }
+        // Write out fields
+        for (let i = 0; i < csglobals.fields.length; i++) {
+          let item = csglobals.fields[i];
+          let x = document.createElement('input');
+          x.name = 'field'
+          x.value = item.$uid;
+          x.type = 'checkbox';
+          fdiv.appendChild(x);
+          x = document.createElement('span');
+          x.textContent = item.display_name + " ( "+item.data_type+" )";
+          fdiv.appendChild(x);
+          fdiv.appendChild(document.createElement('br'));
+        }
+      }
+    
+        async function getLocalesAndFields() {
+          extensionField.stack.getLocales().then((langs) => {
+            //console.log(extensionField.entry);
+            csglobals.langs = langs;  // available languages in the stack
+            csglobals.fields = extensionField.entry.content_type.schema; // Schema of current entry
+            csglobals.entry_uid = extensionField.entry._data.uid; // entry UID of current entry
+            csglobals.sourceLocale = extensionField.entry.locale; // current locale of the entry, source of the copy
+            csglobals.content_type = extensionField.entry.content_type.uid; //. 
+            setUp();
+          })
+        }
+        
+        window.extensionField = {};
+        const csglobals = {};
+        ContentstackUIExtension.init().then(function (extension) {
+            extensionField = extension;
+            getLocalesAndFields();
+        });
+    </script>
+</body>
+</html>
