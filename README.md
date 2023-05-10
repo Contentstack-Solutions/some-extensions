@@ -117,6 +117,18 @@ Value is enriched when entry is created. Field is readonly so editors cannot cha
 **Use Cases:**
 1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it.
 
+
+## Read Only Alwyas Custom Field extension
+**Steps:**
+1. Set Field data type of Extension as 'Text'.
+2. Choose Hosting Method as 'Hosted by Contentstack'.
+3. Add [Html Code](https://github.com/Contentstack-Solutions/some-extensions/blob/main/read-only-custom-field/readOnlyAlways.html) in Extension source code.
+4. Add this custom field in your desired content-type, This field only allows field value set for Version 1 of Entry after that this field will be disabled for edit.
+
+**Use Cases:**
+1. To always restrict the value of field which are directly created in Content Type including the first version; no one can edit it and it's expected to be populated via an external system via CMA or by Contentstack Automation Hub according to required business logice.
+
+
 ## Copy Field data from one field to another extension
 **Steps:**
 1. Set Field data type of Extension as 'Text'.
