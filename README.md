@@ -118,7 +118,7 @@ Value is enriched when entry is created. Field is readonly so editors cannot cha
 1. To restrict the value of field which are directly created in Content Type so after its version 1, no one should edit it.
 
 
-## Read Only Alwyas Custom Field extension
+## Read Only Always Custom Field extension
 **Steps:**
 1. Set Field data type of Extension as 'Text'.
 2. Choose Hosting Method as 'Hosted by Contentstack'.
