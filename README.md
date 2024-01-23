@@ -161,7 +161,7 @@ Config Parameter Example:
 }
 ```
 
-5. Add this custom field with `Mandatory` checked in Advance field setting in your desired content-type, This field only allow you  publish if title value is 'Hello world' else it will show validation error message.
+5. Add this custom field with UID as 'validation' and `Mandatory` checked in the Advance field setting in your desired content type, This field only allows you  to publish if the title value is 'Hello world' otherwise, it will show the validation error message.
 
 
 ## docx-to-html custom field extension
